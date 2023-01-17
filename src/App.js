@@ -1,13 +1,22 @@
-import logo from './logo.svg';
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import './App.css';
 import TodoList from './TodoList';
 const { uuid } = require('uuidv4');
 
+const local_storage_key = 'todoApp.todos'
 
 function App() {
   const [todos, setTodos] = useState([])
   const todoNameRef = useRef()
+
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(local_storage_key))
+    if (storedTodos) setTodos(storedTodos)
+}, [])
+
+  useEffect(() => {
+    localStorage.setItem(local_storage_key, JSON.stringify(todos))
+  }, [todos])
 
   function handleAddTodo(e) {
     const name = todoNameRef.current.value
