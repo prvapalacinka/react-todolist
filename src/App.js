@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import React, {useState, useRef} from 'react';
 import './App.css';
 import TodoList from './TodoList';
+const { uuid } = require('uuidv4');
 
 
 function App() {
@@ -11,7 +12,11 @@ function App() {
   function handleAddTodo(e) {
     const name = todoNameRef.current.value
     if (name === '') return 
+    setTodos(prevTodos => {
+      return [...prevTodos, { id: uuid(), name: name, complete: false}]
+    })
     console.log(name)
+    todoNameRef.current.value = null
   }
   return (
     <>
